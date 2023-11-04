@@ -36,9 +36,10 @@ def chatbot(conversation, model="gpt-4", temperature=0, max_tokens=2000):
 
 # Define the function to use the ChatGPT API
 def use_chatgpt(system_message, user_message):
-    conversation = list()
-    conversation.append({'role': 'system', 'content': system_message})
-    conversation.append({'role': 'user', 'content': user_message})
+    conversation = [
+        {'role': 'system', 'content': system_message},
+        {'role': 'user', 'content': user_message},
+    ]
     response, tokens = chatbot(conversation)
     return response, tokens
 
@@ -88,14 +89,12 @@ def get_system_message(file_name: str):
     # assume the prompt are in the demo root for demo purposes
     demo_root = pathlib.Path(__file__).parent.parents[0]
     prompt_file_path = demo_root / file_name
- 
 
-    # Check if the file exists before trying to read it
-    if prompt_file_path.exists() and prompt_file_path.is_file():
-        # Open and read the file
-        with open(prompt_file_path, 'r') as f:
-            content = f.read()
-        return content
-    else:
+
+    if not prompt_file_path.exists() or not prompt_file_path.is_file():
         raise ValueError(f"The file {prompt_file_path} does not exist.")
+    # Open and read the file
+    with open(prompt_file_path, 'r') as f:
+        content = f.read()
+    return content
 

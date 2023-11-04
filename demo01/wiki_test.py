@@ -30,8 +30,6 @@ def search_wikipedia(query):
     # Get the page ID of the first page
     page_id = list(data['query']['pages'].keys())[0]
 
-    # Print the content of the page
-    results = data['query']['pages'][page_id]['extract']
-    return results
+    return data['query']['pages'][page_id]['extract']
 
 search_wikipedia('Python programming')
